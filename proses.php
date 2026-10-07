@@ -1,43 +1,37 @@
 <?php
-	include 'koneksi.php';
+	include 'fungsi.php';
 
 	if(isset($_POST['aksi'])){
 		if($_POST['aksi']=="add"){
 
-			$nisn = $_POST['nisn'];
-			$nama_siswa = $_POST['nama_siswa'];
-			$jenis_kelamin = $_POST['jenis_kelamin'];
-			$foto = "image1.jpg";
-			$alamat = $_POST['alamat'];
+			$berhasil = tambah_data($_POST, $_FILES);			
 
-			$query = "INSERT INTO tb_siswa VALUES(null, '$nisn', '$nama_siswa', '$jenis_kelamin', '$foto', '$alamat')";
-			$sql = mysqli_query($conn, $query);
-
-			if($sql){
+			if($berhasil){
 				header("location: index.php");
-				//echo "Data Berhasil Ditambahkan <a href='index.php'>[Home]</a>";
 			} else {
-				echo $query;
+				echo $berhasil;
 			}
 
-			//echo $nisn." | ".$nama_siswa." | ".$jenis_kelamin." | ".$foto." | ".$alamat.;
+		} else if($_POST['aksi']=="edit"){
 
-			//echo "<br>Tambah Data <a href='index.php'>[Home]</a>";
-		} else if ($_POST['aksi']=="edit"){
-			echo "Edit Data <a href='index.php'>[Home]</a>";
+			$berhasil = ubah_data($_POST, $_FILES);
+			
+			if ($berhasil){
+				header("location: index.php");
+			} else {
+				echo $berhasil;
+			}
 		}
 	}
-	if(isset($_GET['hapus'])){
-		$id_siswa = $_GET['hapus'];
-		$query = "DELETE FROM tb_siswa WHERE id_siswa = '$id_siswa';";
-		$sql = mysqli_query($conn, $query);
 
-		if($sql){
+	if(isset($_GET['hapus'])){
+		
+		$berhasil = hapus_data($_GET);
+
+		if($berhasil){
 			header("location: index.php");
-			//echo "Data Berhasil Ditambahkan <a href='index.php'>[Home]</a>";
 		} else{
-			echo $query;
+			echo $berhasil;
 		}
-		//echo "Hapus Data <a href='index.php'>[Home]</a>";
 	}
 ?>
